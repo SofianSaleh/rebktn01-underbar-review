@@ -121,7 +121,9 @@
 
     // console.log(array, obj, Object.values(obj))
 
-    return Object.values(obj);
+    return _.map(obj, function(elem, key) {
+      return elem;
+    });
   };
 
 
@@ -277,6 +279,15 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for(var i = 1; i < arguments.length; i++){
+      for(var key in arguments[i]){
+        if (key in obj !== true) {
+          obj[key] = arguments[i][key];
+        }
+      }
+    }
+
+    return obj;
   };
 
 
@@ -320,6 +331,17 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // console.log(func())
+    var count =  1;
+    function trye(){
+      if(count !== 0){
+        count--;
+        
+        return func;
+      }
+    }
+
+    return trye();
   };
 
   // Delays a function for the given number of milliseconds, and then calls
